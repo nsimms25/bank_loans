@@ -37,6 +37,9 @@ class Loan:
         self.total_payments = self.term_years * self.payments_per_year
 
     def compute_payment(self) -> float:
+        """
+        Compute the payment that is required for the loan.
+        """
         if self.amortization_type == "interest_only":
             return self.principal * self.periodic_rate
 
@@ -49,6 +52,9 @@ class Loan:
         return P * r / (1 - (1 + r) ** -n)
 
     def amortization_schedule(self):
+        """
+        This is the creation of the amortization schedule.
+        """
         schedule = []
         balance = self.principal
         payment = self.compute_payment()
@@ -56,12 +62,13 @@ class Loan:
         for period in range(1, self.total_payments + 1):
             interest = balance * self.periodic_rate
 
+            #Interest only is simply the zero out the principal that is paid.
             if self.amortization_type == "interest_only":
                 principal_payment = 0
                 if period == self.total_payments:
                     principal_payment = balance
             else:
-                principal_payment = payment - interest
+                principal_payment = payment - interest 
                 if principal_payment > balance:
                     principal_payment = balance
                     payment = interest + principal_payment  # final adjustment
@@ -77,6 +84,7 @@ class Loan:
                 'Balance': round(balance, 2),
             })
 
+            #Make sure to stop at balance of 0.
             if balance <= 0.0:
                 break
 
@@ -138,9 +146,8 @@ def balloon_payment_loan(principal, annual_rate, term_years, balloon_years, paym
 
     return schedule
 
-"""
-Test Loan class
-"""
+
+#Test Loan class
 loan = Loan(
     principal=1_000_000,
     annual_rate=0.076,
@@ -153,9 +160,7 @@ for row in schedule[:3]:  # preview first 3 payments
     print(row)
 
 
-"""
-Test and verify balloon payment loan
-"""
+#Test and verify balloon payment loan
 balloon_loan = balloon_payment_loan(
     principal=1_000_000,
     annual_rate=0.06,
