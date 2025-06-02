@@ -1,7 +1,24 @@
+"""
+This file contains a Loan class to create a loan based on standard or interest-only loans.
+Contains functions for balloon payment loans as well. 
+"""
 from typing import List, Dict
 from pprint import pprint
 
 class Loan:
+    """
+    Loan class to create an amortization schedule based on typical loan inputs. 
+
+    Args: 
+        principal (Float): Loan amount
+        annual_rate (Float): the rate of the interest in decimal point (ex. 0.06)
+        term_years (Int): the number of the years the loan is active (ex. 10)
+        payments_per_year (Int): The number of payments per year, 12 by default. (ex. 12)
+        amortization_type (Str): The type of amortization for the loan. ('standard' or 'interest-only')
+    
+    Returns:
+        schedule (List[Dict]): The amortization schedule for the loan.
+    """
     def __init__(
         self,
         principal: float,
